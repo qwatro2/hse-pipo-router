@@ -20,4 +20,23 @@
 
 Один из бизнесовых сервисов, отвечает за домен управления группами. Все методы защищены скоупами groups.read или groups.write, используется OAuth 2.0 Client Credentials авторизация через shared-expenses-auth сервис.
 
+## Выполнение требований
 
+✅❌
+
+### Группа требований 1
+
+| Требование | Выполняется? | Где или как посмотреть |
+|------------|--------------|------------------------|
+| Приложение поддерживает аутентификацию пользователей и контроль доступа к API | ✅ | Поднять сервисы, открыть сваггер shared-expenses-gateway, увидеть замочек и 401 при попытке отправить запрос без bearer-токена. Создать пользователя в shared-expenses-auth, получить access-токен и выполнить запрос к shared-expenses-gateway с этим токеном |
+| Приложение имеет gRPC или HTTP API (минимум четыре бизнес-метода: создание,
+получение, изменение, удаление) | ✅ | Не знаю, насколько важно было сделать именно CRUD, но в целом на трех сервисах есть и GET, и POST, и PUT, и DELETE запросы. Посмотреть можно в сваггерах |
+| Все сервисы и API покрыты тестами (unit и функциональными)
+ | ✅ | В сервисах shared-expenses-gateway и shared-expenses-groups удалось довести до честных 100% - [раз](https://github.com/qwatro2/shared-expenses-gateway/pull/4#issuecomment-4152954470) и [два](https://github.com/qwatro2/shared-expenses-groups/pull/4#issuecomment-4153332071), в shared-expenses-auth до [98.99%](https://github.com/qwatro2/shared-expenses-auth/pull/5#issuecomment-4153327361), потому что есть исключения при работе с токенами, которые не получилось воспроизвести |
+| Приложение использует внешнюю БД для хранения пользователей и бизнесинформации | ✅ | например, что в [application.yml](https://github.com/qwatro2/shared-expenses-auth/blob/main/app/src/main/resources/application.yml#L15) используется постгревый connection-url и драйвер |
+| Схема базы данных создаётся при запуске или деплое приложения, поддерживается
+версионирование схемы | ✅ | используется [Liquibase](https://github.com/qwatro2/shared-expenses-auth/blob/main/app/src/main/resources/db/changelog/db.changelog-master.yaml) |
+| Схема базы данных отражается в код при сборке. Несоответствие ORM-моделей,
+запросов и схемы приводит к ошибке сборки | ❌ | Не реализовывал, потому что вместо ORM использую jdbcTemplate |
+
+Итого, выполнено 5 требований из 6 на 10/3 балла
