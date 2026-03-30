@@ -36,7 +36,19 @@
 | Приложение использует внешнюю БД для хранения пользователей и бизнесинформации | ✅ | например, что в [application.yml](https://github.com/qwatro2/shared-expenses-auth/blob/main/app/src/main/resources/application.yml#L15) используется постгревый connection-url и драйвер |
 | Схема базы данных создаётся при запуске или деплое приложения, поддерживается
 версионирование схемы | ✅ | используется [Liquibase](https://github.com/qwatro2/shared-expenses-auth/blob/main/app/src/main/resources/db/changelog/db.changelog-master.yaml) |
-| Схема базы данных отражается в код при сборке. Несоответствие ORM-моделей,
+| Схема базы данных отражается в код при сборке Несоответствие ORM-моделей,
 запросов и схемы приводит к ошибке сборки | ❌ | Не реализовывал, потому что вместо ORM использую jdbcTemplate |
 
 Итого, выполнено 5 требований из 6 на 10/3 балла
+
+### Группа требований 2
+
+| Требование | Выполняется? | Где или как посмотреть |
+|------------|--------------|------------------------|
+| Приложение поддерживает логирование | ✅ | Используется [Slf4j](https://github.com/qwatro2/shared-expenses-auth/blob/main/app/src/main/java/org/qwatro2/shared/expenses/auth/api/aop/InboundRequestAdvice.java#L16), можно поднять сервис, кинуть запрос и увидеть как минимум AOP-логи |
+| Приложение поддерживает метрики | ✅ | Используется [io.micrometer:micrometer-registry-prometheus](https://github.com/qwatro2/shared-expenses-auth/blob/main/gradle/libs.versions.toml#L26), можно поднять сервис, кинуть запрос, затем открыть `/actuator/prometheus` и увидеть метрики |
+| Приложение может быть запущено в Kubernetes | ✅ | Да, для каждого приложения написаны helm-чарты - [пример](https://github.com/qwatro2/shared-expenses-auth/tree/main/helm/shared-expenses-auth) |
+| Поддерживается сборка логов приложения и всех взаимодействующих с приложением
+инфраструктурных объектов в Kubernetes | ❌ | Нет, не успеваю( |
+
+Итого, выполнено 3 требования из 4 на 3 балла
